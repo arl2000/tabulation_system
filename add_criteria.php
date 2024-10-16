@@ -144,8 +144,19 @@
             cursor: pointer;
         }
 
-        .add-sub-criteria:hover, .delete-criteria:hover, .delete-sub-criteria:hover {
+        .add-sub-criteria:hover {
             text-decoration: underline;
+        }
+        .delete-sub-criteria{
+            color: red;
+        }
+        .delete-sub-criteria:hover, .delete-criteria:hover {
+            text-decoration: underline;
+            color: red;
+        }
+        span{
+            margin-left: 30px;
+            color: red;
         }
     </style>
 </head>
@@ -190,7 +201,7 @@
                     <tr>
                         <th colspan="3">
                             <a href="#" class="add-sub-criteria" data-criteria-id="<?php echo $criteria['criteria_id']; ?>"><?php echo htmlspecialchars($criteria['name']); ?></a>
-                            <a href="#" class="delete-criteria" data-criteria-id="<?php echo $criteria['criteria_id']; ?>">Delete</a>
+                            <a href="#" class="delete-criteria" data-criteria-id="<?php echo $criteria['criteria_id']; ?>"><span>Delete</span> </a>
                         </th>
                     </tr>
                     <tr>

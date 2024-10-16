@@ -202,11 +202,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criteria'])) {
         .judge-section {
             page-break-before: always;
         }
+        .active{
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
 
-    <a href="admin_dashboard.php?event_id=<?php echo $event_id; ?>">Home</a>
+<nav class="navbar">
+    <ul>
+        <li class="active"><a href="display_judges_scores.php?event_id=<?php echo $event_id; ?>">Back to Judges Scores</a></li>
+        <li><a href="event_details.php?event_id=<?php echo $event_id; ?>">Show Overall Ranking</a></li>
+        <li><a href="minor_awards.php?event_id=<?php echo $event_id; ?>">Show Minor Awards</a></li>
+        <li><a href="judges_individual_scores.php?event_id=<?php echo $event_id; ?>">Show Individual Scores</a></li>
+        <li><a href="admin_dashboard.php?event_id=<?php echo $event_id; ?>">Home</a></li>
+    </ul>
+</nav>
+
+
 
     <h2>Judges Scores for Event: <?php echo htmlspecialchars($event_name); ?></h2>
 
@@ -327,9 +340,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['criteria'])) {
 
     <?php endwhile; ?>
 
-    <button onclick="window.location.href='event_details.php?event_id=<?php echo $event_id; ?>'">Show Overall Ranking</button>
+    <!-- <button onclick="window.location.href='event_details.php?event_id=<?php echo $event_id; ?>'">Show Overall Ranking</button>
 
     <button onclick="window.location.href='minor_awards.php?event_id=<?php echo $event_id; ?>'">Show Minor Awards</button>
+
+    <button onclick="window.location.href='judges_individual_scores.php?event_id=<?php echo $event_id; ?>'">Show Individual Scores</button> -->
 
     <button onclick="printPage()">Print</button>
 

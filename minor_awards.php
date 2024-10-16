@@ -46,6 +46,31 @@ function getRankLabel($rank) {
             background-color: #f4f4f4;
         }
 
+        ul {
+            list-style-type: none;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            margin: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        ul li a:hover {
+            color: #d4e6f1;
+        }
+
         h2 {
             text-align: center;
             margin: 20px 0;
@@ -155,6 +180,17 @@ function getRankLabel($rank) {
     </style>
 </head>
 <body>
+
+<nav class="navbar">
+    <ul>
+        <li><a href="display_judges_scores.php?event_id=<?php echo $event_id; ?>">Back to Judges Scores</a></li>
+        <li><a href="event_details.php?event_id=<?php echo $event_id; ?>">Show Overall Ranking</a></li>
+        <li><a href="minor_awards.php?event_id=<?php echo $event_id; ?>">Show Minor Awards</a></li>
+        <li><a href="judges_individual_scores.php?event_id=<?php echo $event_id; ?>">Show Individual Scores</a></li>
+        <li><a href="admin_dashboard.php?event_id=<?php echo $event_id; ?>">Home</a></li>
+    </ul>
+</nav>
+
     <h2><?php echo htmlspecialchars($event_name); ?> Minor Awards</h2>
 
     <?php
@@ -162,7 +198,7 @@ function getRankLabel($rank) {
         $criteria_id = $criteria['criteria_id'];
         $criteria_name = $criteria['name'];
 
-        $male_participants_query = "SELECT participants.number, participants.name, AVG(scores.score) as average_score
+        $male_participants_query = "SELECT participants.number, participants.name, SUM(scores.score) as total_score, AVG(scores.score) as average_score
         FROM participants
         JOIN scores ON participants.participant_id = scores.participant_id
         WHERE participants.event_id = $event_id AND participants.gender = 'male' AND scores.criteria_id = $criteria_id
@@ -173,11 +209,12 @@ function getRankLabel($rank) {
         if (mysqli_num_rows($male_participants_result) > 0) {
             echo "<table>
                 <tr>
-                    <th colspan='4'>Category: " . htmlspecialchars($criteria_name) . " (Male)</th>
+                    <th colspan='5'>Category: " . htmlspecialchars($criteria_name) . " (Male)</th>
                 </tr>
                 <tr>
                     <th>Participant Number</th>
                     <th>Participant Name</th>
+                    <th>Total Score</th>
                     <th>Average Score</th>
                     <th>Rank</th>
                 </tr>";
@@ -187,6 +224,7 @@ function getRankLabel($rank) {
                 echo "<tr>
                     <td class='number'>" . htmlspecialchars($row['number']) . "</td>
                     <td>" . htmlspecialchars($row['name']) . "</td>
+                    <td>" . number_format($row['total_score'], 2) . "</td>
                     <td>" . number_format($row['average_score'], 2) . "</td>
                     <td>" . $rank_label . "</td>
                 </tr>";
@@ -195,7 +233,8 @@ function getRankLabel($rank) {
             echo "</table>";
         }
 
-        $female_participants_query = "SELECT participants.number, participants.name, AVG(scores.score) as average_score
+        // Fetch female participants' scores
+        $female_participants_query = "SELECT participants.number, participants.name, SUM(scores.score) as total_score, AVG(scores.score) as average_score
         FROM participants
         JOIN scores ON participants.participant_id = scores.participant_id
         WHERE participants.event_id = $event_id AND participants.gender = 'female' AND scores.criteria_id = $criteria_id
@@ -206,11 +245,12 @@ function getRankLabel($rank) {
         if (mysqli_num_rows($female_participants_result) > 0) {
             echo "<table>
                 <tr>
-                    <th colspan='4'>Category: " . htmlspecialchars($criteria_name) . " (Female)</th>
+                    <th colspan='5'>Category: " . htmlspecialchars($criteria_name) . " (Female)</th>
                 </tr>
                 <tr>
                     <th>Participant Number</th>
                     <th>Participant Name</th>
+                    <th>Total Score</th>
                     <th>Average Score</th>
                     <th>Rank</th>
                 </tr>";
@@ -220,6 +260,7 @@ function getRankLabel($rank) {
                 echo "<tr>
                     <td class='number'>" . htmlspecialchars($row['number']) . "</td>
                     <td>" . htmlspecialchars($row['name']) . "</td>
+                    <td>" . number_format($row['total_score'], 2) . "</td>
                     <td>" . number_format($row['average_score'], 2) . "</td>
                     <td>" . $rank_label . "</td>
                 </tr>";
@@ -228,12 +269,12 @@ function getRankLabel($rank) {
             echo "</table>";
         }
 
-        $mixed_participants_query = "SELECT participants.number, participants.name, AVG(scores.score) as average_score
-        FROM participants
-        JOIN scores ON participants.participant_id = scores.participant_id
-        WHERE participants.event_id = $event_id AND (participants.gender IS NULL OR participants.gender = '') AND scores.criteria_id = $criteria_id
-        GROUP BY participants.participant_id
-        ORDER BY average_score DESC";
+        $mixed_participants_query = "SELECT participants.number, participants.name, SUM(scores.score) as total_score, AVG(scores.score) as average_score
+            FROM participants
+            JOIN scores ON participants.participant_id = scores.participant_id
+            WHERE participants.event_id = $event_id AND (participants.gender IS NULL OR participants.gender = '') AND scores.criteria_id = $criteria_id
+            GROUP BY participants.participant_id
+            ORDER BY average_score DESC";
         $mixed_participants_result = mysqli_query($connect, $mixed_participants_query);
 
         if (mysqli_num_rows($mixed_participants_result) > 0) {
@@ -242,6 +283,7 @@ function getRankLabel($rank) {
                 <tr>
                     <th>Participant Number</th>
                     <th>Participant Name</th>
+                    <th>Total Score</th>
                     <th>Average Score</th>
                     <th>Rank</th>
                 </tr>";
@@ -251,14 +293,15 @@ function getRankLabel($rank) {
                 echo "<tr>
                     <td class='number'>" . htmlspecialchars($row['number']) . "</td>
                     <td>" . htmlspecialchars($row['name']) . "</td>
+                    <td>" . number_format($row['total_score'], 2) . "</td>
                     <td>" . number_format($row['average_score'], 2) . "</td>
                     <td>" . $rank_label . "</td>
                 </tr>";
                 $rank++;
             }
             echo "</table>";
-        }
-    }
+            }
+            }
 
     $judges_query = "SELECT * FROM judges WHERE event_id = $event_id";
     $judges_result = mysqli_query($connect, $judges_query);

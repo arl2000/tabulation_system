@@ -417,7 +417,7 @@ $events_result = mysqli_query($connect, $events_query);
         <!-- <h3>Criteria for: <?php echo htmlspecialchars($event_name); ?></h3> -->
         <!-- Display Criteria list -->
         <?php include 'add_criteria.php'; ?><br>
-        <button onclick="document.getElementById('addCriteriaModal').style.display='block'">Add Criteria</button>
+        <button onclick="document.getElementById('addCriteriaModal').style.display='block'">Add Category</button>
     </div>
 
     <!-- Add Participant Section -->
@@ -469,14 +469,14 @@ $events_result = mysqli_query($connect, $events_query);
         <input type="text" id="criteria_name" name="criteria_name" required><br>
 
         <div id="subCriteriaForm">
-            <div class="sub-criteria">
+            <!-- <div class="sub-criteria">
                 <label for="sub_criteria_name_1">Criteria Name:</label>
                 <input type="text" id="sub_criteria_name_1" name="sub_criteria_name[]" required>
                 <label for="points_1">Points:</label>
                 <input type="number" id="points_1" name="points[]" required>
-            </div>
+            </div> -->
         </div>
-        <button type="submit">Add Criteria</button>
+        <button type="submit">Add Category</button>
         <button type="button" onclick="document.getElementById('addCriteriaModal').style.display='none'">Cancel</button>
     </form>
 </div>

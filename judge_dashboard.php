@@ -36,8 +36,7 @@ $criteria_result = mysqli_query($connect, $criteria_query);
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Judge Dashboard</title>
-<!-- Include jQuery library -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="js/jquery-3.7.1.min.js"></script>
 
 <script>
 // Function to toggle table visibility

@@ -78,6 +78,31 @@ body {
     padding: 0;
 }
 
+ul {
+            list-style-type: none;
+            padding: 10px;
+            text-align: center;
+            background-color: #007bff;
+            margin: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        ul li {
+            display: inline;
+            margin: 0 10px;
+        }
+
+        ul li a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        ul li a:hover {
+            color: #d4e6f1;
+        }
+
 .container {
     max-width: 800px;
     margin: 50px auto;
@@ -187,6 +212,17 @@ form input[type="submit"]:hover {
     </style>
 </head>
 <body>
+
+<nav class="navbar">
+    <ul>
+        <li><a href="display_judges_scores.php?event_id=<?php echo $event_id; ?>">Back to Judges Scores</a></li>
+        <li><a href="event_details.php?event_id=<?php echo $event_id; ?>">Show Overall Ranking</a></li>
+        <li><a href="minor_awards.php?event_id=<?php echo $event_id; ?>">Show Minor Awards</a></li>
+        <li><a href="judges_individual_scores.php?event_id=<?php echo $event_id; ?>">Show Individual Scores</a></li>
+        <li><a href="admin_dashboard.php?event_id=<?php echo $event_id; ?>">Home</a></li>
+    </ul>
+</nav>
+
     <div class="container">
         <h2><?php echo $event['name']; ?> Ranking</h2>
 
